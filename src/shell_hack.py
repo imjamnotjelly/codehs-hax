@@ -4,8 +4,8 @@
 # Settings
 # ---------------
 UNAME = ""
-STARTING_DIR = ""
 HOSTNAME = "codehs"
+STARTING_DIR = ""
 NAME_COL = ""
 DIR_COL = ""
 # ---------------
