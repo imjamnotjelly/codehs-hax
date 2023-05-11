@@ -1,3 +1,7 @@
+# Usage
+# from lib_hack import install_lib
+# module_identifier = install_lib(libname)
+
 from subprocess import run
 from importlib import import_module
 from types import ModuleType
