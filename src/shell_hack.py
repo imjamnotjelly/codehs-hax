@@ -3,7 +3,7 @@
 
 # Settings
 # ---------------
-UNAME = "imjamnotjelly"
+UNAME = ""
 HOSTNAME = "codehs"
 STARTING_DIR = ""
 NAME_COL = ""
