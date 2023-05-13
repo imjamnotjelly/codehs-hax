@@ -15,6 +15,7 @@ import os
 import readline
 from time import time
 from math import floor
+from subprocess import PIPE
 from subprocess import run
 from socket import gethostname
 from getpass import getuser
@@ -32,10 +33,13 @@ def bold(text):
 
 def elasped_mins():
     return floor((time() - startTime)/60)
+
+def run_to_str(cmd):
+    return run(cmd, shell=True, stdout=PIPE).stdout.decode("utf-8")
     
 UNAME = dash_to_space(set_default(UNAME, getuser()))
-STARTING_DIR = set_default(STARTING_DIR, ".")
 HOSTNAME = dash_to_space(set_default(HOSTNAME, gethostname()))
+STARTING_DIR = set_default(STARTING_DIR, ".")
 NAME_COL = set_default(NAME_COL, "green")
 DIR_COL = set_default(DIR_COL, "blue")
 FULL_NAME = f'{UNAME}@{HOSTNAME}'
@@ -58,7 +62,8 @@ while True:
     )
     
     if (cmd:=cmd.strip(" ")) == "neofetch":
-        NEOFETCH_STR = f"""
+        mem = [i.strip(" ") for i in run_to_str("free -m").replace("\n", "  ").split("  ") if i]
+        neofetch_str = f"""
 .,,,,,,,,,,,,,,,,,,,,,,,  
 $ $``,,,,,,,,,,,`,,,`)F]F   {bold(FULL_NAME)}
 $ $ *MMMMMMMMMMP MMM ]F]F   {'-'*len(FULL_NAME)}
@@ -66,15 +71,15 @@ $ $ ]KKP:KKE KKKKKKK ]F]F   {bold("OS: ")}Ubuntu 18.04.6 LTS x86_64
 $ $ jHHHHHH[ ppF ppm ]F]F   {bold("Kernel: ")}4.4.0-1101-aws
 $ $ .ww  ,,,.,,, ,,, ]F]F   {bold("Uptime: ")}{elasped_mins()} mins
 $ $,,,,,,,,,,,,,,,,,,]F]F   {bold("CPU: ")}Intel(R) Xeon(R) Platinum @ 2.50GHz
-$,'''''''''''''''''''',]F
+$,'''''''''''''''''''',]F   {bold("Mem: ")}{mem[8]} / {mem[7]}MiB
  ``````)$YYYYYY$```````
   pmmmmHbmmmmmmmHmmmmmp
   bppppppppppppppppppp$
   ^^^^^^^^^^^^^^^^^^^^^   
         """
         
-        NEOFETCH_STR = "\n".join([qs.style_string(l, color="blue") for l in NEOFETCH_STR.split("\n")])
-        print(NEOFETCH_STR)
+        neofetch_str = "\n".join([qs.style_string(l, color="blue") for l in neofetch_str.split("\n")])
+        print(neofetch_str)
         continue
     
     run(cmd, shell=True)
