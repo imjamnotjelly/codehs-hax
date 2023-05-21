@@ -25,7 +25,7 @@ qs = install_lib("quick_styles")
 def set_default(var, default):
     return var or default
 
-def dash_to_space(text):
+def space_to_dash(text):
     return text.strip(" ").replace(" ", "-")
 
 def bold(text):
@@ -37,8 +37,8 @@ def elasped_mins():
 def run_to_str(cmd):
     return run(cmd, shell=True, stdout=PIPE).stdout.decode("utf-8")
     
-UNAME = dash_to_space(set_default(UNAME, getuser()))
-HOSTNAME = dash_to_space(set_default(HOSTNAME, gethostname()))
+UNAME = space_to_dash(set_default(UNAME, getuser()))
+HOSTNAME = space_to_dash(set_default(HOSTNAME, gethostname()))
 STARTING_DIR = set_default(STARTING_DIR, ".")
 NAME_COL = set_default(NAME_COL, "green")
 DIR_COL = set_default(DIR_COL, "blue")
